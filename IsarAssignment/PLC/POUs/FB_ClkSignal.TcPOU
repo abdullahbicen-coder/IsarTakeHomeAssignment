@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="FB_ClkSignal" Id="{803bec69-42f2-40b8-8edb-d2dc6a760253}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ClkSignal
+VAR_INPUT
+    IN_bStart : BOOL;       
+    IN_fFrequency : REAL;   
+END_VAR
+VAR_OUTPUT
+    OUT_Signal : BOOL;      
+END_VAR
+VAR
+    timer : TON;            
+    tHalfPeriod : TIME;     
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF IN_bStart AND IN_fFrequency > 0 THEN
+    tHalfPeriod := REAL_TO_TIME((1.0 / IN_fFrequency) * 500.0);
+    
+    timer(IN := NOT timer.Q, PT := tHalfPeriod);
+    
+    IF timer.Q THEN
+        OUT_Signal := NOT OUT_Signal;
+    END_IF
+ELSE
+    OUT_Signal := FALSE;
+    timer(IN := FALSE);
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_ClkSignal">
+      <LineId Id="20" Count="0" />
+      <LineId Id="22" Count="9" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

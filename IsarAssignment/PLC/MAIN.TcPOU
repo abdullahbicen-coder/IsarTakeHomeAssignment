@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="MAIN" Id="{3e8ee53b-4ba3-40a1-bc6e-e2aed8eb2a14}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+
+    bStart_Command : BOOL;
+    fFreq_Setting  : REAL := 1.0; 
+
+    bDigitalOutput AT %Q* : BOOL; 
+
+    fbClockGen : FB_ClkSignal;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbClockGen(
+    IN_bStart := bStart_Command, 
+    IN_fFrequency := fFreq_Setting, 
+    OUT_Signal => bDigitalOutput
+);]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="16" Count="3" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
